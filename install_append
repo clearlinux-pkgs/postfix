@@ -1,0 +1,1 @@
+mv %{buildroot}/usr/sbin/sendmail %{buildroot}/usr/sbin/sendmail-postfix

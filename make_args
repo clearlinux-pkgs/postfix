@@ -1,0 +1,1 @@
+CCARGS="-DNO_DB -DUSE_TLS `pkg-config --cflags openssl`" AUXLIBS="`pkg-config --libs openssl`"

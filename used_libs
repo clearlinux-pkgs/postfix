@@ -1,0 +1,5 @@
+libc.so.6
+libcrypto.so.1.1
+libnsl.so.1
+libresolv.so.2
+libssl.so.1.1
