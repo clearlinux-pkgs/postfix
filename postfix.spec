@@ -4,12 +4,12 @@
 #
 Name     : postfix
 Version  : 3.4.5
-Release  : 1
+Release  : 2
 URL      : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.5.tar.gz
 Source0  : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.5.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : BSD-4-Clause EPL-2.0
+License  : BSD-4-Clause EPL-2.0 GPL-2.0 IPL-1.0
 Requires: postfix-bin = %{version}-%{release}
 Requires: postfix-libexec = %{version}-%{release}
 Requires: postfix-license = %{version}-%{release}
@@ -67,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1558765962
+export SOURCE_DATE_EPOCH=1558766245
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -80,7 +80,7 @@ make  %{?_smp_mflags} CCARGS="-DNO_DB -DUSE_TLS `pkg-config --cflags openssl`" A
 
 
 %install
-export SOURCE_DATE_EPOCH=1558765962
+export SOURCE_DATE_EPOCH=1558766245
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/COPYRIGHT
