@@ -1,1 +1,20 @@
-CCARGS="-DNO_DB -DUSE_TLS `pkg-config --cflags openssl`" AUXLIBS="`pkg-config --libs openssl`"
+CCARGS="
+	-DNO_DB
+	-DUSE_TLS
+	-DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl
+	`pkg-config --cflags openssl`
+	-DHAS_MYSQL -I/usr/include/mysql
+	-DHAS_PGSQL -I/usr/include/postgresql
+	-DHAS_SQLITE
+	-DHAS_PCRE -I/usr/include/pocre
+"
+AUXLIBS="
+	`pkg-config --libs openssl`
+	-lsasl2
+	-lmysqlclient
+	-lpq
+	-lsqlite3
+	-lpcre
+"
+shared=yes
+dynamicmaps=yes
