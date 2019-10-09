@@ -3,3 +3,4 @@
 openssl-dev
 mariadb-dev
 postgresql-dev
+db-dev

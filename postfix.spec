@@ -4,7 +4,7 @@
 #
 Name     : postfix
 Version  : 3.4.7
-Release  : 10
+Release  : 11
 URL      : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.7.tar.gz
 Source0  : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.7.tar.gz
 Source1  : postfix.service
@@ -19,6 +19,7 @@ Requires: postfix-libexec = %{version}-%{release}
 Requires: postfix-license = %{version}-%{release}
 Requires: postfix-man = %{version}-%{release}
 Requires: postfix-services = %{version}-%{release}
+BuildRequires : db-dev
 BuildRequires : mariadb-dev
 BuildRequires : openssl-dev
 BuildRequires : pkgconfig(libpcre)
@@ -118,7 +119,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570647768
+export SOURCE_DATE_EPOCH=1570660098
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -128,7 +129,6 @@ export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 make  %{?_smp_mflags}  CCARGS=" \
--DNO_DB \
 -DUSE_TLS \
 -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl \
 `pkg-config --cflags openssl` \
@@ -150,7 +150,7 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1570647768
+export SOURCE_DATE_EPOCH=1570660098
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/COPYRIGHT

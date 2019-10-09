@@ -1,5 +1,4 @@
 CCARGS="
-	-DNO_DB
 	-DUSE_TLS
 	-DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl
 	`pkg-config --cflags openssl`
