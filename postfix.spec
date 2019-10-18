@@ -4,7 +4,7 @@
 #
 Name     : postfix
 Version  : 3.4.7
-Release  : 12
+Release  : 14
 URL      : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.7.tar.gz
 Source0  : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.7.tar.gz
 Source1  : postfix.service
@@ -119,7 +119,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570739789
+export SOURCE_DATE_EPOCH=1571369019
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -135,7 +135,8 @@ make  %{?_smp_mflags}  CCARGS=" \
 -DHAS_MYSQL -I/usr/include/mysql \
 -DHAS_PGSQL -I/usr/include/postgresql \
 -DHAS_SQLITE \
--DHAS_PCRE -I/usr/include/pocre \
+-DHAS_PCRE -I/usr/include/pcre \
+-DDEF_PID_DIR=\\\"/run/postfix\\\" \
 " \
 AUXLIBS=" \
 `pkg-config --libs openssl` \
@@ -150,12 +151,12 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1570739789
+export SOURCE_DATE_EPOCH=1571369019
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
-cp COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/COPYRIGHT
-cp LICENSE %{buildroot}/usr/share/package-licenses/postfix/LICENSE
-cp conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/conf_LICENSE
+cp %{_builddir}/postfix-3.4.7/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
+cp %{_builddir}/postfix-3.4.7/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+cp %{_builddir}/postfix-3.4.7/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
 make non-interactive-package install_root=%{buildroot} manpage_directory=/usr/share/man
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postfix.service
@@ -247,9 +248,8 @@ cp -v conf/* %{buildroot}/usr/share/doc/postfix/defconfig/
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/postfix/COPYRIGHT
-/usr/share/package-licenses/postfix/LICENSE
-/usr/share/package-licenses/postfix/conf_LICENSE
+/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
 
 %files man
 %defattr(0644,root,root,0755)

@@ -5,7 +5,8 @@ CCARGS="
 	-DHAS_MYSQL -I/usr/include/mysql
 	-DHAS_PGSQL -I/usr/include/postgresql
 	-DHAS_SQLITE
-	-DHAS_PCRE -I/usr/include/pocre
+	-DHAS_PCRE -I/usr/include/pcre
+	-DDEF_PID_DIR=\\\"/run/postfix\\\"
 "
 AUXLIBS="
 	`pkg-config --libs openssl`

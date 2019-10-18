@@ -1,1 +1,5 @@
-d /var/spool/postfix 0755 root root - -
+d /var/spool/postfix 0750 root postfix - -
+d /var/spool/postfix/defer 0770 postfix postdrop - -
+d /var/spool/postfix/maildrop 0770 postfix postdrop - -
+d /var/spool/postfix/public 0770 postfix postdrop - -
+d /var/lib/postfix postfix postfix - -
