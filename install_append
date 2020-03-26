@@ -1,3 +1,5 @@
-mv %{buildroot}/usr/sbin/sendmail %{buildroot}/usr/sbin/sendmail-postfix
+mkdir -p %{buildroot}/usr/bin
+mv %{buildroot}/usr/sbin/sendmail %{buildroot}/usr/bin/sendmail-postfix
 mkdir -p %{buildroot}/usr/share/doc/postfix/defconfig
 cp -v conf/* %{buildroot}/usr/share/doc/postfix/defconfig/
+mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/

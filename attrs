@@ -1,2 +1,2 @@
-2755 root postdrop /usr/sbin/postqueue
-2755 root postdrop /usr/sbin/postdrop
+2755 root postdrop /usr/bin/postqueue
+2755 root postdrop /usr/bin/postdrop

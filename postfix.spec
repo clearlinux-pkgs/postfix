@@ -4,7 +4,7 @@
 #
 Name     : postfix
 Version  : 3.4.7
-Release  : 15
+Release  : 17
 URL      : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.7.tar.gz
 Source0  : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.4.7.tar.gz
 Source1  : postfix.service
@@ -112,6 +112,7 @@ services components for the postfix package.
 
 %prep
 %setup -q -n postfix-3.4.7
+cd %{_builddir}/postfix-3.4.7
 %patch1 -p1
 
 %build
@@ -119,7 +120,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571454900
+export SOURCE_DATE_EPOCH=1585259031
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -151,7 +152,7 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1571454900
+export SOURCE_DATE_EPOCH=1585259031
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp %{_builddir}/postfix-3.4.7/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
@@ -163,9 +164,11 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postfix.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/postfix.conf
 ## install_append content
-mv %{buildroot}/usr/sbin/sendmail %{buildroot}/usr/sbin/sendmail-postfix
+mkdir -p %{buildroot}/usr/bin
+mv %{buildroot}/usr/sbin/sendmail %{buildroot}/usr/bin/sendmail-postfix
 mkdir -p %{buildroot}/usr/share/doc/postfix/defconfig
 cp -v conf/* %{buildroot}/usr/share/doc/postfix/defconfig/
+mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 ## install_append end
 
 %files
@@ -173,21 +176,21 @@ cp -v conf/* %{buildroot}/usr/share/doc/postfix/defconfig/
 
 %files bin
 %defattr(-,root,root,-)
-%attr(2755,root,postdrop) /usr/sbin/postdrop
-%attr(2755,root,postdrop) /usr/sbin/postqueue
+%attr(2755,root,postdrop) /usr/bin/postdrop
+%attr(2755,root,postdrop) /usr/bin/postqueue
 /usr/bin/mailq
 /usr/bin/newaliases
-/usr/sbin/postalias
-/usr/sbin/postcat
-/usr/sbin/postconf
-/usr/sbin/postfix
-/usr/sbin/postkick
-/usr/sbin/postlock
-/usr/sbin/postlog
-/usr/sbin/postmap
-/usr/sbin/postmulti
-/usr/sbin/postsuper
-/usr/sbin/sendmail-postfix
+/usr/bin/postalias
+/usr/bin/postcat
+/usr/bin/postconf
+/usr/bin/postfix
+/usr/bin/postkick
+/usr/bin/postlock
+/usr/bin/postlog
+/usr/bin/postmap
+/usr/bin/postmulti
+/usr/bin/postsuper
+/usr/bin/sendmail-postfix
 
 %files config
 %defattr(-,root,root,-)
