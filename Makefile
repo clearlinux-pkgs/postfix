@@ -1,5 +1,5 @@
 PKG_NAME := postfix
-URL = http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.5.7.tar.gz
+URL = https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.5.9.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common

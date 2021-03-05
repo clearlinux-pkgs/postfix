@@ -5,13 +5,13 @@
 # Source0 file verified with key 0x0C0B590E80CA15A7 (wietse@porcupine.org)
 #
 Name     : postfix
-Version  : 3.5.7
-Release  : 18
-URL      : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.5.7.tar.gz
-Source0  : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.5.7.tar.gz
+Version  : 3.5.9
+Release  : 19
+URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.5.9.tar.gz
+Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.5.9.tar.gz
 Source1  : postfix.service
 Source2  : postfix.tmpfiles
-Source3  : http://ftp.porcupine.org/mirrors/postfix-release/official/postfix-3.5.7.tar.gz.sig
+Source3  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.5.9.tar.gz.sig
 Summary  : Mail transfer agent (MTA) that routes and delivers electronic mail. SMTP server.
 Group    : Development/Tools
 License  : BSD-4-Clause EPL-1.0 EPL-2.0 GPL-2.0 IPL-1.0
@@ -112,15 +112,15 @@ services components for the postfix package.
 
 
 %prep
-%setup -q -n postfix-3.5.7
-cd %{_builddir}/postfix-3.5.7
+%setup -q -n postfix-3.5.9
+cd %{_builddir}/postfix-3.5.9
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1601676662
+export SOURCE_DATE_EPOCH=1614984573
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -152,12 +152,12 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1601676662
+export SOURCE_DATE_EPOCH=1614984573
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
-cp %{_builddir}/postfix-3.5.7/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
-cp %{_builddir}/postfix-3.5.7/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
-cp %{_builddir}/postfix-3.5.7/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+cp %{_builddir}/postfix-3.5.9/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
+cp %{_builddir}/postfix-3.5.9/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+cp %{_builddir}/postfix-3.5.9/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
 make non-interactive-package install_root=%{buildroot} manpage_directory=/usr/share/man
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postfix.service
