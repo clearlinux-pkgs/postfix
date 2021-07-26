@@ -5,13 +5,13 @@
 # Source0 file verified with key 0x0C0B590E80CA15A7 (wietse@porcupine.org)
 #
 Name     : postfix
-Version  : 3.6.1
-Release  : 21
-URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.6.1.tar.gz
-Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.6.1.tar.gz
+Version  : 3.6.2
+Release  : 22
+URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.6.2.tar.gz
+Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.6.2.tar.gz
 Source1  : postfix.service
 Source2  : postfix.tmpfiles
-Source3  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.6.1.tar.gz.sig
+Source3  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.6.2.tar.gz.sig
 Summary  : Mail transfer agent (MTA) that routes and delivers electronic mail. SMTP server.
 Group    : Development/Tools
 License  : BSD-4-Clause EPL-1.0 EPL-2.0 GPL-2.0 IPL-1.0
@@ -113,23 +113,23 @@ services components for the postfix package.
 
 
 %prep
-%setup -q -n postfix-3.6.1
-cd %{_builddir}/postfix-3.6.1
+%setup -q -n postfix-3.6.2
+cd %{_builddir}/postfix-3.6.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1624044813
+export SOURCE_DATE_EPOCH=1627333424
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 make  %{?_smp_mflags}  CCARGS=" \
 -DUSE_TLS \
 -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl \
@@ -153,12 +153,12 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1624044813
+export SOURCE_DATE_EPOCH=1627333424
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
-cp %{_builddir}/postfix-3.6.1/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
-cp %{_builddir}/postfix-3.6.1/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
-cp %{_builddir}/postfix-3.6.1/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+cp %{_builddir}/postfix-3.6.2/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
+cp %{_builddir}/postfix-3.6.2/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+cp %{_builddir}/postfix-3.6.2/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
 make non-interactive-package install_root=%{buildroot} manpage_directory=/usr/share/man
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postfix.service
