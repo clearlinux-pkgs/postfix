@@ -4,7 +4,7 @@
 #
 Name     : postfix
 Version  : 3.7.2
-Release  : 26
+Release  : 27
 URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.7.2.tar.gz
 Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.7.2.tar.gz
 Source1  : postfix.service
