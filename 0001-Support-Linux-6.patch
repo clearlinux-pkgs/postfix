@@ -5,8 +5,9 @@ Subject: [PATCH] Support Linux 6.*
 
 Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 ---
- makedefs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ makedefs            | 2 +-
+ src/util/sys_defs.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/makedefs b/makedefs
 index 3937a49..d3a4eac 100644
@@ -21,3 +22,16 @@ index 3937a49..d3a4eac 100644
  		case "$CCARGS" in
  		 *-DNO_DB*) ;;
  		 *-DHAS_DB*) ;;
+diff --git a/src/util/sys_defs.h b/src/util/sys_defs.h
+index c9ebc33..e37e769 100644
+--- a/src/util/sys_defs.h
++++ b/src/util/sys_defs.h
+@@ -751,7 +751,7 @@ extern int initgroups(const char *, int);
+  /*
+   * LINUX.
+   */
+-#if defined(LINUX2) || defined(LINUX3) || defined(LINUX4) || defined(LINUX5)
++#if defined(LINUX2) || defined(LINUX3) || defined(LINUX4) || defined(LINUX5) || defined(LINUX6)
+ #define SUPPORTED
+ #define UINT32_TYPE	unsigned int
+ #define UINT16_TYPE	unsigned short

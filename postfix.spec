@@ -4,7 +4,7 @@
 #
 Name     : postfix
 Version  : 3.7.3
-Release  : 29
+Release  : 30
 URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.7.3.tar.gz
 Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.7.3.tar.gz
 Source1  : postfix.service
@@ -120,7 +120,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1665420497
+export SOURCE_DATE_EPOCH=1665421042
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -152,7 +152,7 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1665420497
+export SOURCE_DATE_EPOCH=1665421042
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp %{_builddir}/postfix-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
