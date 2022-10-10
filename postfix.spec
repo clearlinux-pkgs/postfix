@@ -4,7 +4,7 @@
 #
 Name     : postfix
 Version  : 3.7.3
-Release  : 28
+Release  : 29
 URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.7.3.tar.gz
 Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.7.3.tar.gz
 Source1  : postfix.service
@@ -27,6 +27,7 @@ BuildRequires : pkgconfig(libpcre)
 BuildRequires : pkgconfig(libsasl2)
 BuildRequires : pkgconfig(sqlite3)
 BuildRequires : postgresql-dev
+Patch1: 0001-Support-Linux-6.patch
 
 %description
 Purpose of this document
@@ -112,13 +113,14 @@ services components for the postfix package.
 %prep
 %setup -q -n postfix-3.7.3
 cd %{_builddir}/postfix-3.7.3
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1665417866
+export SOURCE_DATE_EPOCH=1665420497
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -150,12 +152,12 @@ dynamicmaps=yes
 
 
 %install
-export SOURCE_DATE_EPOCH=1665417866
+export SOURCE_DATE_EPOCH=1665420497
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
-cp %{_builddir}/postfix-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30 || :
-cp %{_builddir}/postfix-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4 || :
-cp %{_builddir}/postfix-%{version}/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4 || :
+cp %{_builddir}/postfix-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30
+cp %{_builddir}/postfix-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
+cp %{_builddir}/postfix-%{version}/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4
 make non-interactive-package install_root=%{buildroot} manpage_directory=/usr/share/man
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postfix.service
