@@ -4,10 +4,10 @@
 # Using build pattern: make
 #
 Name     : postfix
-Version  : 3.8.0
-Release  : 33
-URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.0.tar.gz
-Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.0.tar.gz
+Version  : 3.8.1
+Release  : 34
+URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.1.tar.gz
+Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.1.tar.gz
 Source1  : postfix.service
 Source2  : postfix.tmpfiles
 Summary  : Mail transfer agent (MTA) that routes and delivers electronic mail. SMTP server.
@@ -15,6 +15,7 @@ Group    : Development/Tools
 License  : BSD-4-Clause EPL-1.0 EPL-2.0 GPL-2.0 IPL-1.0
 Requires: postfix-bin = %{version}-%{release}
 Requires: postfix-config = %{version}-%{release}
+Requires: postfix-data = %{version}-%{release}
 Requires: postfix-lib = %{version}-%{release}
 Requires: postfix-libexec = %{version}-%{release}
 Requires: postfix-license = %{version}-%{release}
@@ -43,6 +44,7 @@ assume you do both.
 %package bin
 Summary: bin components for the postfix package.
 Group: Binaries
+Requires: postfix-data = %{version}-%{release}
 Requires: postfix-libexec = %{version}-%{release}
 Requires: postfix-config = %{version}-%{release}
 Requires: postfix-license = %{version}-%{release}
@@ -60,6 +62,14 @@ Group: Default
 config components for the postfix package.
 
 
+%package data
+Summary: data components for the postfix package.
+Group: Data
+
+%description data
+data components for the postfix package.
+
+
 %package doc
 Summary: doc components for the postfix package.
 Group: Documentation
@@ -72,6 +82,7 @@ doc components for the postfix package.
 %package lib
 Summary: lib components for the postfix package.
 Group: Libraries
+Requires: postfix-data = %{version}-%{release}
 Requires: postfix-libexec = %{version}-%{release}
 Requires: postfix-license = %{version}-%{release}
 
@@ -115,23 +126,26 @@ services components for the postfix package.
 
 
 %prep
-%setup -q -n postfix-3.8.0
-cd %{_builddir}/postfix-3.8.0
+%setup -q -n postfix-3.8.1
+cd %{_builddir}/postfix-3.8.1
+pushd ..
+cp -a postfix-3.8.1 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1681746812
+export SOURCE_DATE_EPOCH=1686061989
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 make  %{?_smp_mflags}  CCARGS=" \
 -DUSE_TLS \
 -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl \
@@ -153,14 +167,44 @@ AUXLIBS=" \
 shared=yes \
 dynamicmaps=yes
 
+pushd ../buildavx2
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+make  %{?_smp_mflags}  CCARGS=" \
+-DUSE_TLS \
+-DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl \
+`pkg-config --cflags openssl` \
+-DHAS_MYSQL -I/usr/include/mysql \
+-DHAS_PGSQL -I/usr/include/postgresql \
+-DHAS_SQLITE \
+-DHAS_PCRE -I/usr/include/pcre \
+-DDEF_PID_DIR=\\\"/run/postfix\\\" \
+" \
+AUXLIBS=" \
+`pkg-config --libs openssl` \
+-lsasl2 \
+-lmysqlclient \
+-lpq \
+-lsqlite3 \
+-lpcre \
+" \
+shared=yes \
+dynamicmaps=yes
+popd
 
 %install
-export SOURCE_DATE_EPOCH=1681746812
+export SOURCE_DATE_EPOCH=1686061989
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp %{_builddir}/postfix-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30 || :
 cp %{_builddir}/postfix-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4 || :
 cp %{_builddir}/postfix-%{version}/conf/LICENSE %{buildroot}/usr/share/package-licenses/postfix/0f78113e577104ec27d59b2b02c0d595c62ae6b4 || :
+pushd ../buildavx2/
+make non-interactive-package install_root=%{buildroot} manpage_directory=/usr/share/man_v3
+popd
 make non-interactive-package install_root=%{buildroot} manpage_directory=/usr/share/man
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postfix.service
@@ -173,6 +217,7 @@ mkdir -p %{buildroot}/usr/share/doc/postfix/defconfig
 cp -v conf/* %{buildroot}/usr/share/doc/postfix/defconfig/
 mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -198,6 +243,80 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 %files config
 %defattr(-,root,root,-)
 /usr/lib/tmpfiles.d/postfix.conf
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/man_v3/man1/mailq.1
+/usr/share/man_v3/man1/newaliases.1
+/usr/share/man_v3/man1/postalias.1
+/usr/share/man_v3/man1/postcat.1
+/usr/share/man_v3/man1/postconf.1
+/usr/share/man_v3/man1/postdrop.1
+/usr/share/man_v3/man1/postfix-tls.1
+/usr/share/man_v3/man1/postfix.1
+/usr/share/man_v3/man1/postkick.1
+/usr/share/man_v3/man1/postlock.1
+/usr/share/man_v3/man1/postlog.1
+/usr/share/man_v3/man1/postmap.1
+/usr/share/man_v3/man1/postmulti.1
+/usr/share/man_v3/man1/postqueue.1
+/usr/share/man_v3/man1/postsuper.1
+/usr/share/man_v3/man1/sendmail.1
+/usr/share/man_v3/man5/access.5
+/usr/share/man_v3/man5/aliases.5
+/usr/share/man_v3/man5/body_checks.5
+/usr/share/man_v3/man5/bounce.5
+/usr/share/man_v3/man5/canonical.5
+/usr/share/man_v3/man5/cidr_table.5
+/usr/share/man_v3/man5/generic.5
+/usr/share/man_v3/man5/header_checks.5
+/usr/share/man_v3/man5/ldap_table.5
+/usr/share/man_v3/man5/lmdb_table.5
+/usr/share/man_v3/man5/master.5
+/usr/share/man_v3/man5/memcache_table.5
+/usr/share/man_v3/man5/mysql_table.5
+/usr/share/man_v3/man5/nisplus_table.5
+/usr/share/man_v3/man5/pcre_table.5
+/usr/share/man_v3/man5/pgsql_table.5
+/usr/share/man_v3/man5/postconf.5
+/usr/share/man_v3/man5/postfix-wrapper.5
+/usr/share/man_v3/man5/regexp_table.5
+/usr/share/man_v3/man5/relocated.5
+/usr/share/man_v3/man5/socketmap_table.5
+/usr/share/man_v3/man5/sqlite_table.5
+/usr/share/man_v3/man5/tcp_table.5
+/usr/share/man_v3/man5/transport.5
+/usr/share/man_v3/man5/virtual.5
+/usr/share/man_v3/man8/anvil.8
+/usr/share/man_v3/man8/bounce.8
+/usr/share/man_v3/man8/cleanup.8
+/usr/share/man_v3/man8/defer.8
+/usr/share/man_v3/man8/discard.8
+/usr/share/man_v3/man8/dnsblog.8
+/usr/share/man_v3/man8/error.8
+/usr/share/man_v3/man8/flush.8
+/usr/share/man_v3/man8/lmtp.8
+/usr/share/man_v3/man8/local.8
+/usr/share/man_v3/man8/master.8
+/usr/share/man_v3/man8/oqmgr.8
+/usr/share/man_v3/man8/pickup.8
+/usr/share/man_v3/man8/pipe.8
+/usr/share/man_v3/man8/postlogd.8
+/usr/share/man_v3/man8/postscreen.8
+/usr/share/man_v3/man8/proxymap.8
+/usr/share/man_v3/man8/qmgr.8
+/usr/share/man_v3/man8/qmqpd.8
+/usr/share/man_v3/man8/scache.8
+/usr/share/man_v3/man8/showq.8
+/usr/share/man_v3/man8/smtp.8
+/usr/share/man_v3/man8/smtpd.8
+/usr/share/man_v3/man8/spawn.8
+/usr/share/man_v3/man8/tlsmgr.8
+/usr/share/man_v3/man8/tlsproxy.8
+/usr/share/man_v3/man8/trace.8
+/usr/share/man_v3/man8/trivial-rewrite.8
+/usr/share/man_v3/man8/verify.8
+/usr/share/man_v3/man8/virtual.8
 
 %files doc
 %defattr(0644,root,root,0755)
