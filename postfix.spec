@@ -4,10 +4,10 @@
 # Using build pattern: make
 #
 Name     : postfix
-Version  : 3.8.1
-Release  : 34
-URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.1.tar.gz
-Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.1.tar.gz
+Version  : 3.8.2
+Release  : 35
+URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.2.tar.gz
+Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.2.tar.gz
 Source1  : postfix.service
 Source2  : postfix.tmpfiles
 Summary  : Mail transfer agent (MTA) that routes and delivers electronic mail. SMTP server.
@@ -126,10 +126,10 @@ services components for the postfix package.
 
 
 %prep
-%setup -q -n postfix-3.8.1
-cd %{_builddir}/postfix-3.8.1
+%setup -q -n postfix-3.8.2
+cd %{_builddir}/postfix-3.8.2
 pushd ..
-cp -a postfix-3.8.1 buildavx2
+cp -a postfix-3.8.2 buildavx2
 popd
 
 %build
@@ -137,7 +137,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1686061989
+export SOURCE_DATE_EPOCH=1693929550
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -196,7 +196,7 @@ dynamicmaps=yes
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1686061989
+export SOURCE_DATE_EPOCH=1693929550
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp %{_builddir}/postfix-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30 || :
