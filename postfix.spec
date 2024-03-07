@@ -6,10 +6,10 @@
 # autospec commit: 1ab68ca
 #
 Name     : postfix
-Version  : 3.8.6
-Release  : 39
-URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.6.tar.gz
-Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.8.6.tar.gz
+Version  : 3.9.0
+Release  : 40
+URL      : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.9.0.tar.gz
+Source0  : https://archive.mgm51.com/mirrors/postfix-source/official/postfix-3.9.0.tar.gz
 Source1  : postfix.service
 Source2  : postfix.tmpfiles
 Summary  : Mail transfer agent (MTA) that routes and delivers electronic mail. SMTP server.
@@ -125,10 +125,10 @@ services components for the postfix package.
 
 
 %prep
-%setup -q -n postfix-3.8.6
-cd %{_builddir}/postfix-3.8.6
+%setup -q -n postfix-3.9.0
+cd %{_builddir}/postfix-3.9.0
 pushd ..
-cp -a postfix-3.8.6 buildavx2
+cp -a postfix-3.9.0 buildavx2
 popd
 
 %build
@@ -136,7 +136,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1709654220
+export SOURCE_DATE_EPOCH=1709826391
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -217,7 +217,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1709654220
+export SOURCE_DATE_EPOCH=1709826391
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postfix
 cp %{_builddir}/postfix-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postfix/51ed8894ca9a43ac82b3e637508197c3a1f6de30 || :
@@ -298,6 +298,7 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 /usr/share/man_v3/man5/lmdb_table.5
 /usr/share/man_v3/man5/master.5
 /usr/share/man_v3/man5/memcache_table.5
+/usr/share/man_v3/man5/mongodb_table.5
 /usr/share/man_v3/man5/mysql_table.5
 /usr/share/man_v3/man5/nisplus_table.5
 /usr/share/man_v3/man5/pcre_table.5
@@ -430,6 +431,7 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 /usr/share/man/man5/lmdb_table.5
 /usr/share/man/man5/master.5
 /usr/share/man/man5/memcache_table.5
+/usr/share/man/man5/mongodb_table.5
 /usr/share/man/man5/mysql_table.5
 /usr/share/man/man5/nisplus_table.5
 /usr/share/man/man5/pcre_table.5
